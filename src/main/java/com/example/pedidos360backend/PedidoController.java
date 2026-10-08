@@ -1,5 +1,7 @@
 package com.example.pedidos360backend;
 
+import com.example.pedidos360backend.service.PedidoProducer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,6 +9,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/pedidos")
 public class PedidoController {
+
+    @Autowired
+    private PedidoProducer pedidoProducer;
     
     private final List<String> pedidos = new ArrayList<>();
 
@@ -18,7 +23,12 @@ public class PedidoController {
     @PostMapping
     public String crearPedido(@RequestBody String pedido) {
         pedidos.add(pedido);
-        return "Añadido al carrito";
+        long idPedido = pedidos.size();
+        
+        // Publica el evento asíncrono hacia RabbitMQ
+        pedidoProducer.notificarCreacionPedido("martinvtellez22@gmail.com", idPedido, 100.0);
+
+        return "Añadido al carrito y evento encolado en RabbitMQ";
     }
 
     @PutMapping("/{id}")
