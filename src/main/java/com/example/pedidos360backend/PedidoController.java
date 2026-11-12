@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/pedidos")
+@RequestMapping("/v1/pedidos")
 public class PedidoController {
     
     private final List<String> pedidos = new ArrayList<>();
