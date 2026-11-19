@@ -9,7 +9,6 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/pedidos")
 public class PedidoController {
-
     @Autowired
     private PedidoProducer pedidoProducer;
     
@@ -25,10 +24,11 @@ public class PedidoController {
         pedidos.add(pedido);
         long idPedido = pedidos.size();
         
-        // Publica el evento asíncrono hacia RabbitMQ
         pedidoProducer.notificarCreacionPedido("martinvtellez22@gmail.com", idPedido, 100.0);
+        pedidoProducer.notificarDescuentoInventario(idPedido, 1L, 1);
+        pedidoProducer.notificarPago(idPedido, 100.0);
 
-        return "Añadido al carrito y evento encolado en RabbitMQ";
+        return "Añadido al carrito y eventos encolados en las 3 colas de RabbitMQ";
     }
 
     @PutMapping("/{id}")
