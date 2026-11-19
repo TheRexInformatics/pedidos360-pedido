@@ -24,7 +24,7 @@ public class PedidoController {
         pedidos.add(pedido);
         long idPedido = pedidos.size();
         
-        pedidoProducer.notificarCreacionPedido("martinvtellez22@gmail.com", idPedido, 100.0);
+        pedidoProducer.notificarCreacionPedido("mb.espinoza@duocuc.cl", idPedido, 100.0);
         pedidoProducer.notificarDescuentoInventario(idPedido, 1L, 1);
         pedidoProducer.notificarPago(idPedido, 100.0);
 
